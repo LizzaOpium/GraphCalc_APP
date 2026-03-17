@@ -1,0 +1,9 @@
+{
+    "range_a": -20.0,
+    "range_b": 20.0,
+    "color_mode": "all_different",
+    "theme": "dark",
+    "window_width": 1100,
+    "window_height": 680,
+    "last_tab": 0
+}
