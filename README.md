@@ -110,6 +110,7 @@ numpy
 <details>
 <summary> <b>Информация о сборе .exe файла</b> </summary>
 
+
 **Удаление старого кеша**
 
 ```powershell
