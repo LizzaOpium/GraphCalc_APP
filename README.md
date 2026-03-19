@@ -106,8 +106,9 @@ numpy
 | `window_width`, `window_height` | размер окна при запуске |
 | `last_tab` | индекс последней активной вкладки (0–3) |
 
+
 <details>
-<summary>Информация о сборе .exe файла</summary>
+<summary>## Информация о сборе .exe файла</summary>
 
 **Удаление старого кеша**
 
