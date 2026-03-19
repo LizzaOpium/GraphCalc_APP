@@ -4,12 +4,13 @@ import os
 import customtkinter as ctk
 from core.config import load, save, resource_path
 from ui.tab_graph import TabGraph
+from ui.tab_info import TabInfo
 from ui.tab_parameter import TabParameter
 from ui.tab_dichotomy import TabDichotomy
 from ui.tab_settings import TabSettings
 
 # названия вкладок
-TAB_NAMES = ['📊 График', '📈 Параметр', '↕️ Дихотомия', '⚙️ Настройки']
+TAB_NAMES = ['📊 График', '📈 Параметр', '↕️ Дихотомия', '⚙️ Настройки', 'ℹ️ Информация']
 
 
 """ Создание класса App, т.е. системного окна """
@@ -41,6 +42,7 @@ class App(ctk.CTk):
         TabParameter(self.tabs.tab('📈 Параметр'), self.cfg).pack(fill='both', expand=True)
         TabDichotomy(self.tabs.tab('↕️ Дихотомия'), self.cfg).pack(fill='both', expand=True)
         TabSettings(self.tabs.tab('⚙️ Настройки'), self.cfg).pack(fill='both', expand=True)
+        TabInfo(self.tabs.tab('ℹ️ Информация'), self.cfg).pack(fill='both', expand=True)
 
         try:
             self.tabs.set(TAB_NAMES[self.cfg.get('last_tab', 0)])

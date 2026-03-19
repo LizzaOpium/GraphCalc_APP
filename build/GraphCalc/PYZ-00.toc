@@ -2696,6 +2696,7 @@
   ('ui.tab_graph',
    'D:\\PythonProject\\GraphCalc\\ui\\tab_graph.py',
    'PYMODULE'),
+  ('ui.tab_info', 'D:\\PythonProject\\GraphCalc\\ui\\tab_info.py', 'PYMODULE'),
   ('ui.tab_parameter',
    'D:\\PythonProject\\GraphCalc\\ui\\tab_parameter.py',
    'PYMODULE'),

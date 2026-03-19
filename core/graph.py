@@ -4,9 +4,11 @@ matplotlib.use('Agg')
 from matplotlib import pyplot as plt
 import re
 
+# --- логарифм по основанию base ---
 def make_logn(base):
     return lambda x: np.log(x) / np.log(base)
 
+# --- получение словаря ---
 def get_dict(x, expression=''):
     bases = re.findall(r'log(\d+\.?\d*)', expression)
     extra = {f'log{i}': make_logn(float(i)) for i in bases}
@@ -18,6 +20,7 @@ def get_dict(x, expression=''):
         **extra
     }
 
+# --- перевод синтаксиса ---
 def parse(expr):
     # игнорирование регистра
     for fn in ['sin', 'cos', 'tan', 'exp', 'sqrt', 'abs', 'ln', 'log']:
@@ -36,14 +39,16 @@ def parse(expr):
     expr = re.sub(r'log(\d+\.?\d*)\(', r'LOGN_\1_(', expr)
     expr = re.sub(r'(\d\.?\d*)(LOGN_)', r'\1*\2', expr)
     # исправление произведения
+    expr = re.sub(r'(\d)(a)(?![a-z])', r'\1*\2', expr)
     expr = re.sub(r'(\d)(x)', r'\1*\2', expr)
+    expr = re.sub(r'(a)(x)', r'\1*\2', expr)
     expr = re.sub(r'(\d\.?\d*)(sin|cos|tan|exp|log|sqrt|abs)', r'\1*\2', expr)
     expr = re.sub(r'(\d)\(', r'\1*(', expr)
     # исправление логарифма (окончательное)
     expr = re.sub(r'LOGN_(\d+\.?\d*)_\(', r'log\1(', expr)
     return expr
 
-# глобальные переменные модуля
+# --- глобальные переменные модуля ---
 func = 'x'
 c = None
 
