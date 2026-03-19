@@ -106,10 +106,12 @@ numpy
 | `window_width`, `window_height` | размер окна при запуске |
 | `last_tab` | индекс последней активной вкладки (0–3) |
 
+---
 
 <details>
 <summary> <b>Информация о сборе .exe файла</b> </summary>
 
+---
 
 **Удаление старого кеша**
 
@@ -119,12 +121,17 @@ Remove-Item -Recurse -Force dist
 Remove-Item -Force GraphCalc.spec
 ```
 
+---
+
 **Сбор приложения заново**
 
 ```bat
 pyinstaller --onefile --windowed --name=GraphCalc --icon=assets/GRAPH2.ico --add-data "assets/GRAPH2.ico;." --add-data "core;core" --add-data "ui;ui" --collect-all customtkinter --collect-all matplotlib main.py
 ```
 
+
 <i> GRAPH2.ico - файл иконки приложения </i>
+
+---
 
 </details>
