@@ -108,7 +108,7 @@ numpy
 
 
 <details>
-<summary>## Информация о сборе .exe файла</summary>
+<summary> <b>Информация о сборе .exe файла</b> </summary>
 
 **Удаление старого кеша**
 
