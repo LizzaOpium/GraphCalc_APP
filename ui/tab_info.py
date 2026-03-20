@@ -1,6 +1,6 @@
 import customtkinter as ctk
 
-APP_VERSION = '1.0.1'
+APP_VERSION = '1.0.2'
 APP_AUTOR = 'Alexey Popov AKA Onemoretime'
 
 class TabInfo(ctk.CTkFrame):

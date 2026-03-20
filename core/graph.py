@@ -1,8 +1,12 @@
 import numpy as np
+import warnings
 import matplotlib
 matplotlib.use('Agg')
 from matplotlib import pyplot as plt
 import re
+
+# --- игнорирование ошибок в степени ---
+warnings.filterwarnings('ignore', message='overflow encountered in scalar power')
 
 # --- логарифм по основанию base ---
 def make_logn(base):
@@ -99,14 +103,25 @@ def dichotomy(a, b, mode='max'):
     if a == b:
         c = None
         return '❌ Ошибка: интервал задан двумя совпадающими точками.'
-    if np.isnan(function(a)) and np.isnan(function(b)):
-        c = None
-        return f'❌ Ошибка: функция не определена на отрезке ({a}; {b})'
 
     segments = 1000
     step = (b - a) / segments
     best_c = None
     best_val = float('-inf') if mode == 'max' else float('inf')
+
+    # --- проверка на существование значений функции ---
+    has_defined = False
+
+    for i in range(segments+1):
+        xi = a + (b - a) * i / segments
+        val = function(xi)
+        if not (np.isnan(val) or np.isinf(val)):
+            has_defined = True
+            break
+
+    if not has_defined:
+        c = None
+        return f'❌ Ошибка: функция не определена на отрезке [{a}; {b}]'
 
     for i in range(segments):
         seg_a = a + i * step
@@ -152,14 +167,36 @@ def dichotomy(a, b, mode='max'):
 
 #===ГРАФИКИ=============================================================================================================
 
+# --- адаптивный подбор x для точности графика ---
+def adaptive_x(a, b, line = 1000):
+    x = np.linspace(a, b, line)
+    y = compute_y(x)
+
+    new_x = [x[0]]
+
+    for i in range(1, len(x) - 1):
+        dy1 = abs(y[i] - y[i-1])
+        dy2 = abs(y[i+1] - y[i])
+
+        # если резкий скачок — добавляем больше точек
+        if dy1 > 1 or dy2 > 1:
+            extra = np.linspace(x[i-1], x[i+1], 5)
+            new_x.extend(extra)
+        else:
+            new_x.append(x[i])
+
+    new_x.append(x[-1])
+    return np.unique(new_x)
+
 """ График + отметка прямыми максимума/минимума """
 def graph(ax, a, b):
     if c is None:
         return
 
-    x = np.linspace(a, b, 1000)
+    x = adaptive_x(a, b, 1500)
     y = compute_y(x)
 
+    y[np.abs(np.diff(y, prepend=y[0])) > 50] = np.nan
     ax.clear()
     build_axes(ax)
 
@@ -178,9 +215,10 @@ def graph(ax, a, b):
 
 """ Простой график """
 def simple_graph(ax, a, b):
-    x = np.linspace(a, b, 1000)
+    x = adaptive_x(a, b, 1500)
     y = compute_y(x)
 
+    y[np.abs(np.diff(y, prepend=y[0])) > 50] = np.nan
     ax.clear()
     build_axes(ax)
 
@@ -196,7 +234,7 @@ def simple_graph(ax, a, b):
 def parameter_graph(ax, color_mode, functions, x_a, x_b):
     global func
 
-    x = np.linspace(x_a, x_b, 1000)
+    x = np.linspace(x_a, x_b, 1500)
 
     ax.clear()
     build_axes(ax)
